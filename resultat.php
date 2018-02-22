@@ -2,118 +2,143 @@
 
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="utf-8" />
-        <link rel="stylesheet" href="./style.css" />
-        <title>Resultat</title>
-    </head>
-    <body>
-        <?php $result = createTable(); ?>
-        <div class="row">
-            <div class="colonne">
-                <form>
-                    <p>Veuillez choisir votre point relais :</p>
-                    <div class="colonne">
+<head>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="./style.css" />
+    <title>Resultat</title>
+</head>
+<body>
+    <?php $result = createTable();
+    echo $result[1][8][0];
+    //print_r($result);?>
+    <div class="row">
+        <div class="colonne">
+            <form>
+                <p>Veuillez choisir votre point relais :</p>
+                <div class="colonne">
                     <?php
-                        $_SESSION["nombreRelais"]=count($result);
-                        foreach ($result as $key => $value) { 
-                            echo'
-                                <input type="radio" id="'.$key.'" name="test"  value="'.$value[1].'" onclick="info('.$key.','.count($result).')">
-                                <label for="'.$key.'">'.$value[1].'</label>
-                            ';  
-                        };
+                    $_SESSION["nombreRelais"]=count($result);
+                    foreach ($result as $key => $value) { 
+                        echo'
+                        <input type="radio" id="'.$key.'" name="test"  value="'.$value[1].'" onclick="info('.$key.','.count($result).')">
+                        <label for="'.$key.'">'.$value[1].'</label>
+                        ';  
+                    };
                     ?>
-                    </div>
-                </form>
+                </div>
+            </form>
 
+        </div>
+        <div class="colonne">
+            <div id="map"></div>
+            <div class="row space-evenly">
+                <?php
+                foreach ($result as $key => $value) {
+                    echo('<div id="div'.$key.'" class="colonne center" style="display:none;">');
+                    echo('<div id="nom'.$key.'" class="bold">'.$value[1].' </div>');                             
+                    echo('<div id="adresse1'.$key.'" > '.$value[2].' </div>');
+                    echo('<div id="adresse2'.$key.'" > '.$value[3].' </div>');
+                    echo('<div id="adresse3'.$key.'" > '.$value[4].' </div>');
+                    echo('<div id="CP'.$key.'" >'.$value[5].' '.$value[6].' </div>');
+                    echo('</div>');
+                };
+                ?>            
             </div>
             <div class="colonne">
-                <div id="map"></div>
-                <div class="row space-evenly">
-                        <?php
-                            foreach ($result as $key => $value) {
-                                echo('<div id="div'.$key.'" class="colonne center" style="display:none;">');
-                                echo('<div id="nom'.$key.'" class="bold">'.$value[1].' </div>');                             
-                                echo('<div id="adresse1'.$key.'" > '.$value[2].' </div>');
-                                echo('<div id="adresse2'.$key.'" > '.$value[3].' </div>');
-                                echo('<div id="adresse3'.$key.'" > '.$value[4].' </div>');
-                                echo('<div id="CP'.$key.'" >'.$value[5].' '.$value[6].' </div>');
-                                echo('</div>');
-                            };
-                        ?>            
-                    </div>
-                    <div class="colonne">
-                        <p id="titre" class="bold center" style="display: none;" > Heures d'ouverture :</p>
-                        <?php
-                            $semaine = array("Lundi","Mardi","Mercredi","Jeudi","Vendredi","Samedi","Dimanche");
-                            foreach ($result as $key => $value) {
-                                echo('<div class="row" style="display: none;" id="horraire'.$key.'">');
-                                $nombre=0;
-                                $i=0;
-                                foreach ($value[9] as $cle => $valeur) {                                    
-                                    if($cle%2==0){
-                                        echo('<div class="colonne marge10">');
-                                        echo('<div class="bold">'.$semaine[$i].' :</div> ');
-                                        $i++;
-                                    }
-                                        echo( '<div>'.$valeur[1].' '.$valeur[2].'</div>');
-                                    if($cle%2!=0){
-                                        echo('</div>');
-                                    }
-                                    $nombre++;
-                                };
-                                if($nombre%2!=0){
-                                    echo('</div>');  
-                                }
-                                echo('</div>');                                
-                            };
-                        ?>                    
-                    </div>
-                </div>                
-            </div>
-        </div>
-        <script>
-            function getQueryVariable(variable)
-            {
-               var query = window.location.search.substring(1);
-               var vars = query.split("&");
-               for (var i=0;i<vars.length;i++) {
-                       var pair = vars[i].split("=");
-                       if(pair[0] == variable){return pair[1];}
-               }
-               return(false);
-            }
-            var map;
-
-            function initMap() {
-                map = new google.maps.Map(document.getElementById('map'), {
-                center: {lat: Number(getQueryVariable("lat")), lng: Number(getQueryVariable("lng"))},
-                zoom: 16
-            });
-          }
-
-        </script>
-        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC-tcIo3j9FrePCRwAb5VSRHQ_IUBkiMf8&callback=initMap" async defer></script>
-
-        <script>
-            function info(num,max){
-                var i=0;
-                var titre = document.getElementById("titre");
-                titre.style="display:flex";
-                for(i=0;i<max;i++){
-                    var heure = document.getElementById("horraire"+i);
-                    var div = document.getElementById("div"+i);
-                    if (i==num){
-                        div.style="display:flex;";
-                        heure.style="display:flex;";
-                    }else{
-                        div.style="display:none;";
-                        heure.style="display:none;";
+                <p id="titre" class="bold center" style="display: none;" > Heures d'ouverture :</p>
+                <?php
+                $semaine = array("Lundi","Mardi","Mercredi","Jeudi","Vendredi","Samedi","Dimanche");
+                foreach ($result as $key => $value) {
+                    echo('<div class="row" style="display: none;" id="horraire'.$key.'">');
+                    $nombre=0;
+                    $i=0;
+                    foreach ($value[9] as $cle => $valeur) {                                    
+                        if($cle%2==0){
+                            echo('<div class="colonne marge10">');
+                            echo('<div class="bold">'.$semaine[$i].' :</div> ');
+                            $i++;
+                        }
+                        echo( '<div>'.$valeur[1].' '.$valeur[2].'</div>');
+                        if($cle%2!=0){
+                            echo('</div>');
+                        }
+                        $nombre++;
+                    };
+                    if($nombre%2!=0){
+                        echo('</div>');  
                     }
-                }
+                    echo('</div>');                                
+                };
+                ?>                    
+            </div>
+        </div>                
+    </div>
+</div>
+<script>
+    function getQueryVariable(variable)
+    {
+     var query = window.location.search.substring(1);
+     var vars = query.split("&");
+     for (var i=0;i<vars.length;i++) {
+         var pair = vars[i].split("=");
+         if(pair[0] == variable){return pair[1];}
+     }
+     return(false);
+ }
+ var map;
+
+ function initMap() {
+    map = new google.maps.Map(document.getElementById('map'), {
+        center: {lat: Number(getQueryVariable("lat")), lng: Number(getQueryVariable("lng"))},
+        zoom: 16
+    });
+    // Marker de l'adresse 
+    var lat = 48.406894;
+    var lng = -4.495438;
+    var markerPosition = {lat: lat, lng: lng};
+    var marker = new google.maps.Marker({
+        position : markerPosition,
+        map: map
+    });
+    // Marker des stores
+    <?php $_SESSION['inc']=0;?>;
+    <?php $j=0;?>;
+    for(var i=0; i<(<?php echo count($result)?>); i++){
+        lat = <?php echo (str_replace(',','.',$result[$_SESSION['inc']][7][0]))?>;
+        lng = <?php echo (str_replace(',','.',$result[$_SESSION['inc']][8][0]))?>;
+        console.log(<?php echo $_SESSION['inc'];?>);
+        <?php $_SESSION['inc'] = $_SESSION['inc']+1;?>;
+        console.log(i+" " +lat + " " + lng + " " + <?php echo $_SESSION['inc'];?>);
+        var markerPosition = {lat: lat, lng: lng};
+        var marker = new google.maps.Marker({
+            position : markerPosition,
+            map: map
+        });; 
+    }
+}
+
+</script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC-tcIo3j9FrePCRwAb5VSRHQ_IUBkiMf8&callback=initMap" async defer></script>
+
+<script>
+    function info(num,max){
+        var i=0;
+        var titre = document.getElementById("titre");
+        titre.style="display:flex";
+        for(i=0;i<max;i++){
+            var heure = document.getElementById("horraire"+i);
+            var div = document.getElementById("div"+i);
+            if (i==num){
+                div.style="display:flex;";
+                heure.style="display:flex;";
+            }else{
+                div.style="display:none;";
+                heure.style="display:none;";
             }
-        </script>
-    </body>
+        }
+    }
+</script>
+</body>
 </html>
 
 <?php
@@ -148,7 +173,7 @@ function createTable(){
                 array_push($opening_hours, ${'opening_hours'.$j});
                 $j++;
             }
-        
+
             ${'table'.$i} = array($distance, $name, $address1, $address2, $address3, $zipcode, $city, $longitude, $latitude, $opening_hours);
             array_push($result, ${'table'.$i});
             $i++;
