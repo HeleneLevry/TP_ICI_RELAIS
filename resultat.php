@@ -45,8 +45,6 @@
           }
         </script>
         <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC-tcIo3j9FrePCRwAb5VSRHQ_IUBkiMf8&callback=initMap" async defer></script>
-
-        <!-- <script src="https://maps.googleapis.com/maps/api/geocode/json?address=1600+Amphitheatre+Parkway,+Mountain+View,+CA&key=AIzaSyD8LZnDRxHPwBpGU3oiCaBekDgxjYNyCbw" async defer></script> -->
             
     </body>
 </html>
