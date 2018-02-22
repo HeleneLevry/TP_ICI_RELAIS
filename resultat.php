@@ -1,3 +1,5 @@
+<?php include "session.php"; ?>
+
 <!DOCTYPE html>
 <html>
     <head>
@@ -6,6 +8,8 @@
         <title>Resultat</title>
     </head>
     <body>
+        <p>
+        <?php print_r(json_decode($_GET['table']));?></p>
         <div class="row">
             <div class="colonne">
                 <input id="checkBox" type="checkbox">

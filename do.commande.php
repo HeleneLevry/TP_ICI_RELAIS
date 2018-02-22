@@ -2,24 +2,34 @@
 
 <?php
 
+include "session.php";
+
 // -------------------- PROGRAMME --------------------
 
 // ----- Treatment -----
-
+$redirect = false;
 if (parameterControl()){
 	// Enregistrer le fichier
 	recordInFile();
 	// Envoyer la requete au serveur
 	$xml = getData();
 	// Utiliser le flux XML pour creation d'un tableau
-	createTable($xml);
+	$table = createTable($xml);
+	// Rediriger
+	$redirect = true;
 }
 else{
 	echo '<p>Some fields are missing</p>';
 	exit();
 }
 
-// ----- Redirection -----
+// ----- Redirection ----
+if ($redirect) {
+	
+	header("Location: resultat.php?table=".json_encode($table));
+	exit();
+}
+
 
 // --------------------  --------------------
 // -------------------- FUNCTIONS --------------------
@@ -81,7 +91,7 @@ function getData(){
 // createTable
 function createTable($xml){
 	$i=0;
-	$result=[];
+	$result= array();
 	foreach ($xml->PUDO_ITEMS->PUDO_ITEM as $pudo_item) {
 		$distance = $pudo_item->DISTANCE;
 		$name = $pudo_item->NAME;
@@ -94,7 +104,7 @@ function createTable($xml){
 		$latitude = $pudo_item->LATITUDE;
 		$opening_hours_items = $pudo_item->OPENING_HOURS_ITEMS;
 		$j=0;
-		$opening_hours=[];
+		$opening_hours=array();
 		foreach ($opening_hours_items->OPENING_HOURS_ITEM as $opening_hours_item) {
 			$day_id = $opening_hours_item->DAY_ID;
 			$start_tm = $opening_hours_item->START_TM;
@@ -107,7 +117,8 @@ function createTable($xml){
 		${'table'.$i} = array($distance, $name, $address1, $address2, $address3, $zipcode, $city, $longitude, $latitude, $opening_hours);
 		array_push($result, ${'table'.$i});
 		$i++;
-	}	
+	}
+	return $result;
 }
 
 // ----- Redirection -----
