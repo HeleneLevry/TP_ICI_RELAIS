@@ -1,0 +1,46 @@
+html {
+    background-color: rgb(255, 219, 231);
+    height: 100%;
+}
+body{
+	display: table;
+	margin: auto;
+}
+
+h1{
+	color:rgba(232, 86, 126, 0.94);
+}
+
+.center{
+	display:flex;
+	justify-content: center;
+}
+
+.error{
+	color:red;
+}
+
+.colonne{
+	display: flex;
+	flex-direction: column ;
+}
+
+.row{
+	display: flex;
+	flex-direction: row ;
+}
+
+.bold{
+	font-weight: bold;
+}
+
+.sub{
+	display: flex;
+	margin: 10px;
+	justify-content: flex-end;
+}
+
+.droite{
+	display:flex;
+	justify-content: flex-end;
+}
