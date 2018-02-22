@@ -60,3 +60,11 @@ h1{
    width: 800px; 
    height: 450px;
 }
+
+.err{
+	margin: 25px auto;
+	text-align: center;
+	background-color: #615d6c;
+	color: #acedff;
+	font-weight: bold;
+}

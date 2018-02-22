@@ -8,6 +8,12 @@
         <title>Commande</title>
     </head>
     <body>
+        <!-- Error messages -->
+        <?php
+        if (isset($_GET['error'])) {
+            printError();
+        }
+        ?>
         <header><div class="center"><h1>Point Relais</h1></div></header>
         <form method="POST" enctype="multipart/form-data" action="do.commande.php">
             <div class="colonne">
@@ -26,3 +32,19 @@
         </form>
     </body>
 </html>
+
+<!-- ____________________ FUNCTIONS ____________________ -->
+<?php
+    function printError(){
+        switch($_GET['error']) {
+            case 'missingArg':
+                echo '<p class="err">Some fields are missing</p>';
+                break;
+            case 'unknow':
+                echo '<p class="err">Error unknown</p>';
+                break;
+            default: 
+                echo '<p class="err">An error is detected but not identified</p>';
+        }
+    }
+?>
