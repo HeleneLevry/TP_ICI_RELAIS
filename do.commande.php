@@ -7,7 +7,9 @@ include "session.php";
 // -------------------- PROGRAMME --------------------
 
 // ----- Treatment -----
+// init redirection to false
 $redirect = false;
+// parameterControl
 if (parameterControl()){
 	// Enregistrer le fichier
 	$xml = recordInFile();
@@ -15,6 +17,7 @@ if (parameterControl()){
 	$xml = getData();*/
 	// Rediriger
 	$redirect = true;
+// parameterControl
 }
 else{
 	echo '<p>Some fields are missing</p>';
@@ -23,13 +26,19 @@ else{
 
 // ----- Redirection ----
 if ($redirect) {
-	
 	header("Location: resultat.php");
 	exit();
 }
-
+elseif (isset($Error)) {
+	redirectError();
+}
+else{
+	echo('Issue to redirect');
+	exit();
+}
 
 // --------------------  --------------------
+
 // -------------------- FUNCTIONS --------------------
 
 // ----- Treatment -----
@@ -41,6 +50,9 @@ function parameterControl(){
 		return true;
 	}
 	else {
+		global $Error, $Redirect;
+		$Redirect = false;
+		$Error = 'missingArg';
 		return false;
 	}	
 }
@@ -92,6 +104,21 @@ function getData(){
 }*/
 
 // ----- Redirection -----
+// redirectError
+function redirectError(){
+	global $Error;
+	switch($Error) {
+    	// parameterControl
+		case 'missingArg':
+		header("Location: commande.php?error=missingArg");
+		exit();
+		break;
+		// default
+		default:
+		header("Location: commande.php?error=unknow");
+		exit();
+	}
+}
 
 // --------------------  --------------------
 
