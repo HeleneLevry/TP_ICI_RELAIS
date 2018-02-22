@@ -10,16 +10,14 @@ if (parameterControl()){
 	// Enregistrer le fichier
 	recordInFile();
 	// Envoyer la requete au serveur
-	$data = getData();
-	echo $data;
+	$xml = getData();
+	// Utiliser le flux XML pour creation d'un tableau
+	createTable($xml);
 }
 else{
 	echo '<p>Some fields are missing</p>';
 	exit();
 }
-
-
-// Utiliser le flux XML pour creation d'un tableau
 
 // ----- Redirection -----
 
@@ -75,8 +73,41 @@ function getData(){
 	$data = curl_exec($connexion);
 	// Close curl connexion
 	curl_close($connexion);
+	// To string
+	$xml = simplexml_load_string($data);
 	//return 
-	return $data;
+	return $xml;
+}
+// createTable
+function createTable($xml){
+	$i=0;
+	$result=[];
+	foreach ($xml->PUDO_ITEMS->PUDO_ITEM as $pudo_item) {
+		$distance = $pudo_item->DISTANCE;
+		$name = $pudo_item->NAME;
+		$address1 = $pudo_item->ADDRESS1;
+		$address2 = $pudo_item->ADDRESS2;
+		$address3 = $pudo_item->ADDRESS3;
+		$zipcode = $pudo_item->ZIPCODE;
+		$city = $pudo_item->CITY;
+		$longitude = $pudo_item->LONGITUDE;
+		$latitude = $pudo_item->LATITUDE;
+		$opening_hours_items = $pudo_item->OPENING_HOURS_ITEMS;
+		$j=0;
+		$opening_hours=[];
+		foreach ($opening_hours_items->OPENING_HOURS_ITEM as $opening_hours_item) {
+			$day_id = $opening_hours_item->DAY_ID;
+			$start_tm = $opening_hours_item->START_TM;
+			$end_tm = $opening_hours_item->END_TM;
+			${'opening_hours'.$j} = array($day_id, $start_tm, $end_tm);
+			array_push($opening_hours, ${'opening_hours'.$j});
+			$j++;
+		}
+		
+		${'table'.$i} = array($distance, $name, $address1, $address2, $address3, $zipcode, $city, $longitude, $latitude, $opening_hours);
+		array_push($result, ${'table'.$i});
+		$i++;
+	}	
 }
 
 // ----- Redirection -----
