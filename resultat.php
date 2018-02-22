@@ -9,7 +9,7 @@
     </head>
     <body>
         <p>
-        <?php print_r(json_decode($_GET['table']));?></p>
+        <?php print_r($_SESSION['table']);?></p>
         <div class="row">
             <div class="colonne">
                 <input id="checkBox" type="checkbox">

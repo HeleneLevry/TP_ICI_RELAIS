@@ -14,7 +14,7 @@ if (parameterControl()){
 	// Envoyer la requete au serveur
 	$xml = getData();
 	// Utiliser le flux XML pour creation d'un tableau
-	$table = createTable($xml);
+	$_SESSION['table'] = createTable($xml);
 	// Rediriger
 	$redirect = true;
 }
@@ -26,7 +26,7 @@ else{
 // ----- Redirection ----
 if ($redirect) {
 	
-	header("Location: resultat.php?table=".json_encode($table));
+	header("Location: resultat.php?table=".$_SESSION['table']);
 	exit();
 }
 
