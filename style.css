@@ -15,6 +15,9 @@ h1{
 	display:flex;
 	justify-content: center;
 }
+.space-evenly{
+	justify-content: space-evenly;
+}
 
 .error{
 	color:red;
@@ -43,4 +46,11 @@ h1{
 .droite{
 	display:flex;
 	justify-content: flex-end;
+}
+
+#map {
+   position: relative;
+   overflow: hidden;
+   width: 800px; 
+   height: 450px;
 }
