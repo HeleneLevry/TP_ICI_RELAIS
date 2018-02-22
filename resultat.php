@@ -8,25 +8,66 @@
         <title>Resultat</title>
     </head>
     <body>
-        <!-- <p>
-            <?php 
-            $result = createTable();
-            print_r($result);
-            ?>
-        </p> -->
+        <?php $result = createTable(); ?>
         <div class="row">
             <div class="colonne">
-                <input id="checkBox" type="checkbox">
+                <form>
+                    <p>Veuillez choisir votre point relais :</p>
+                    <div class="colonne">
+                    <?php
+                        $_SESSION["nombreRelais"]=count($result);
+                        foreach ($result as $key => $value) { 
+                            echo'
+                                <input type="radio" id="'.$key.'" name="test"  value="'.$value[1].'" onclick="info('.$key.','.count($result).')">
+                                <label for="'.$key.'">'.$value[1].'</label>
+                            ';  
+                        };
+                    ?>
+                    </div>
+                </form>
+
             </div>
             <div class="colonne">
                 <div id="map"></div>
                 <div class="row space-evenly">
-                    <div class="colonne">
-                        <p> Nom : </p>
-                        <p> Adresse :</p>
+                        <?php
+                            foreach ($result as $key => $value) {
+                                echo('<div id="div'.$key.'" class="colonne center" style="display:none;">');
+                                echo('<div id="nom'.$key.'" class="bold">'.$value[1].' </div>');                             
+                                echo('<div id="adresse1'.$key.'" > '.$value[2].' </div>');
+                                echo('<div id="adresse2'.$key.'" > '.$value[3].' </div>');
+                                echo('<div id="adresse3'.$key.'" > '.$value[4].' </div>');
+                                echo('<div id="CP'.$key.'" >'.$value[5].' '.$value[6].' </div>');
+                                echo('</div>');
+                            };
+                        ?>            
                     </div>
                     <div class="colonne">
-                        <p class="bold" > Heures d'ouverture :</p>                        
+                        <p id="titre" class="bold center" style="display: none;" > Heures d'ouverture :</p>
+                        <?php
+                            $semaine = array("Lundi","Mardi","Mercredi","Jeudi","Vendredi","Samedi","Dimanche");
+                            foreach ($result as $key => $value) {
+                                echo('<div class="row" style="display: none;" id="horraire'.$key.'">');
+                                $nombre=0;
+                                $i=0;
+                                foreach ($value[9] as $cle => $valeur) {                                    
+                                    if($cle%2==0){
+                                        echo('<div class="colonne marge10">');
+                                        echo('<div class="bold">'.$semaine[$i].' :</div> ');
+                                        $i++;
+                                    }
+                                        echo( '<div>'.$valeur[1].' '.$valeur[2].'</div>');
+                                    if($cle%2!=0){
+                                        echo('</div>');
+                                    }
+                                    $nombre++;
+                                };
+                                if($nombre%2!=0){
+                                    echo('</div>');  
+                                }
+                                echo('</div>');                                
+                            };
+                        ?>                    
                     </div>
                 </div>                
             </div>
@@ -39,15 +80,27 @@
               zoom: 16
             });
           }
-
-          function test(){
-            console.log("test");
-          }
         </script>
         <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC-tcIo3j9FrePCRwAb5VSRHQ_IUBkiMf8&callback=initMap" async defer></script>
 
-        <!-- <script src="https://maps.googleapis.com/maps/api/geocode/json?address=1600+Amphitheatre+Parkway,+Mountain+View,+CA&key=AIzaSyD8LZnDRxHPwBpGU3oiCaBekDgxjYNyCbw" async defer></script> -->
-            
+        <script>
+            function info(num,max){
+                var i=0;
+                var titre = document.getElementById("titre");
+                titre.style="display:flex";
+                for(i=0;i<max;i++){
+                    var heure = document.getElementById("horraire"+i);
+                    var div = document.getElementById("div"+i);
+                    if (i==num){
+                        div.style="display:flex;";
+                        heure.style="display:flex;";
+                    }else{
+                        div.style="display:none;";
+                        heure.style="display:none;";
+                    }
+                }
+            }
+        </script>
     </body>
 </html>
 
