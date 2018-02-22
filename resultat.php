@@ -73,13 +73,25 @@
             </div>
         </div>
         <script>
-          var map;
-          function initMap() {
-            map = new google.maps.Map(document.getElementById('map'), {
-              center: {lat: 48.4066556, lng: -4.4991368},
-              zoom: 16
+            function getQueryVariable(variable)
+            {
+               var query = window.location.search.substring(1);
+               var vars = query.split("&");
+               for (var i=0;i<vars.length;i++) {
+                       var pair = vars[i].split("=");
+                       if(pair[0] == variable){return pair[1];}
+               }
+               return(false);
+            }
+            var map;
+
+            function initMap() {
+                map = new google.maps.Map(document.getElementById('map'), {
+                center: {lat: Number(getQueryVariable("lat")), lng: Number(getQueryVariable("lng"))},
+                zoom: 16
             });
           }
+
         </script>
         <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC-tcIo3j9FrePCRwAb5VSRHQ_IUBkiMf8&callback=initMap" async defer></script>
 
