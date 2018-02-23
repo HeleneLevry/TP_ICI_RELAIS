@@ -2,8 +2,6 @@
 
 <?php
 
-include "session.php";
-
 // -------------------- PROGRAMME --------------------
 
 // ----- Treatment -----

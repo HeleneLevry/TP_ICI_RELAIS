@@ -1,12 +1,12 @@
-<?php include "session.php"; ?>
-
 <!DOCTYPE html>
 <html>
+
 <head>
     <meta charset="utf-8" />
     <link rel="stylesheet" href="./style.css" />
     <title>Resultat</title>
 </head>
+
 <body>
     <?php $result = createTable();
     //print_r($result);?>
