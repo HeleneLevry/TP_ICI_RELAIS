@@ -16,7 +16,7 @@
                 <p>Veuillez choisir votre point relais :</p>
                 <div class="colonne">
                     <?php
-                    $_SESSION["nombreRelais"]=count($result);
+                    // On crée le formulaire avec les ratios
                     foreach ($result as $key => $value) { 
                         echo'
                         <input type="radio" id="'.$key.'" name="test"  value="'.$value[1].'" onclick="info('.$key.','.count($result).')">
@@ -32,6 +32,7 @@
             <div id="map"></div>
             <div class="row space-evenly">
                 <?php
+                // on crée l'encart informations de chaque relais
                 foreach ($result as $key => $value) {
                     echo('<div id="div'.$key.'" class="colonne center" style="display:none;">');
                     echo('<div id="nom'.$key.'" class="bold">'.$value[1].' </div>');                             
@@ -46,6 +47,7 @@
             <div class="colonne">
                 <p id="titre" class="bold center" style="display: none;" > Heures d'ouverture :</p>
                 <?php
+                //On crée le planning d'ouverture de chaque relais 
                 $semaine = array("Lundi","Mardi","Mercredi","Jeudi","Vendredi","Samedi","Dimanche");
                 foreach ($result as $key => $value) {
                     echo('<div class="row" style="display: none;" id="horraire'.$key.'">');
