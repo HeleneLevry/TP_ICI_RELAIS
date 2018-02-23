@@ -4,7 +4,9 @@ html {
 }
 body{
 	display: table;
-	margin: auto;
+	width: 100%;
+	height:100%;
+	margin: 0;
 }
 
 h1{
@@ -44,6 +46,7 @@ form{
 	flex-direction: column ;
 	width : 75%;
 	min-width: 250px;
+	max-width: 500px;
 }
 
 .width80{
@@ -52,6 +55,7 @@ form{
 .row{
 	display: flex;
 	flex-direction: row ;
+	/*align-items: space-between;*/
 }
 
 .bold{

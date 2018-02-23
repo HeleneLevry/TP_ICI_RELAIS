@@ -7,7 +7,7 @@
     <title>Commande</title>
 </head>
 
-<body class="width80">
+<body>
     <!-- Error messages -->
     <?php
     if (isset($_GET['error'])) {
