@@ -8,8 +8,7 @@
 </head>
 
 <body>
-    <?php $result = createTable();
-    //print_r($result);?>
+    <?php $result = createTable();?>
     <div class="row">
         <div class="colonne">
             <form>
@@ -85,37 +84,58 @@
          if(pair[0] == variable){return pair[1];}
      }
      return(false);
- }
+    }
+
  var map;
 
  function initMap() {
     map = new google.maps.Map(document.getElementById('map'), {
         center: {lat: Number(getQueryVariable("lat")), lng: Number(getQueryVariable("lng"))},
-        zoom: 16
+        zoom: 13
     });
-    // Marker de l'adresse 
-    var lat = 48.406894;
-    var lng = -4.495438;
-    var markerPosition = {lat: lat, lng: lng};
-    var marker = new google.maps.Marker({
-        position : markerPosition,
-        map: map
+
+    // Récupération de $result
+    var locations = <?php echo json_encode($result)?>;
+    var locations = Object.keys(locations).map(function(k) { return locations[k] });
+
+     var contentString = '<div id="content">'+
+            '<div id="siteNotice">'+'coucou'
+            '</div>'+'</div>';
+
+    var infowindow = new google.maps.InfoWindow({
+        content: contentString
     });
-    /*// Marker des stores
-    <?php $_SESSION['inc']=0;?>;
-    <?php $j=0;?>;
-    for(var i=0; i<(<?php echo count($result)?>); i++){
-        lat = <?php echo (str_replace(',','.',$result[$_SESSION['inc']][7][0]))?>;
-        lng = <?php echo (str_replace(',','.',$result[$_SESSION['inc']][8][0]))?>;
-        console.log(<?php echo $_SESSION['inc'];?>);
-        <?php $_SESSION['inc'] = $_SESSION['inc']+1;?>;
-        console.log(i+" " +lat + " " + lng + " " + <?php echo $_SESSION['inc'];?>);
-        var markerPosition = {lat: lat, lng: lng};
+
+    var infowindows= new Object();
+
+    locations.forEach(function(element,index) {
+        var lat= element[8][0].replace(',','.');
+        var lng= element[7][0].replace(',','.');
+        var markerPosition = {lat: parseFloat(lat), lng: parseFloat(lng)};
+
+        var infowindow = new google.maps.InfoWindow({
+            content: '<div id="content">'+
+            '<div id="siteNotice">'+element[1][0]+ '</div>'+'</div>'
+        });
+        infowindows[element[1][0]]=infowindow;
+
         var marker = new google.maps.Marker({
             position : markerPosition,
+            title: element[1][0],
             map: map
-        });; 
-    }*/
+        });
+        // aJout de l'evenement sur le bouton ratio correspondant
+        document.getElementById(index).addEventListener("click", (function() {
+            infowindows[element[1][0]].open(map, marker);
+        }));
+    });
+        //Marquer de position du client
+    var markerPosition = {lat: Number(getQueryVariable("lat")), lng: Number(getQueryVariable("lng"))};
+    var marker = new google.maps.Marker({
+        position : markerPosition,
+        title: "Ma position",
+        map: map
+    });
 }
 
 </script>
@@ -143,6 +163,10 @@
 </html>
 
 <?php
+
+function test(){
+    return $result[1][7];
+}
 // -------------------- FUNCTIONS --------------------
 
 // ----- Treatment -----
