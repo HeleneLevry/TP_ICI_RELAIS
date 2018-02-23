@@ -11,6 +11,11 @@ h1{
 	color:rgba(232, 86, 126, 0.94);
 }
 
+form{
+	display:flex;
+	justify-content: center;
+}
+
 .center{
 	display:flex;
 	justify-content: center;
@@ -34,6 +39,16 @@ h1{
 	flex-direction: column ;
 }
 
+.colonne75{
+	display: flex;
+	flex-direction: column ;
+	width : 75%;
+	min-width: 250px;
+}
+
+.width80{
+	width: 80%;
+}
 .row{
 	display: flex;
 	flex-direction: row ;
@@ -62,9 +77,11 @@ h1{
 }
 
 .err{
-	margin: 25px auto;
+	width : 100%;
+	display:flex;
+	justify-content: center;
 	text-align: center;
-	background-color: #615d6c;
-	color: #acedff;
+	background-color: rgba(232, 86, 126, 0.94);
+	color: rgb(255, 219, 231);
 	font-weight: bold;
 }

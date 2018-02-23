@@ -1,19 +1,19 @@
-<?php include "session.php"; ?>
-
 <!DOCTYPE html>
 <html>
+
 <head>
     <meta charset="utf-8" />
     <link rel="stylesheet" href="./style.css" />
     <title>Resultat</title>
 </head>
+
 <body>
     <?php $result = createTable();?>
     <div class="row">
         <div class="colonne">
             <form>
-                <p>Veuillez choisir votre point relais :</p>
                 <div class="colonne">
+                    <p>Veuillez choisir votre point relais :</p>
                     <?php
                     // On crée le formulaire avec les ratios
                     foreach ($result as $key => $value) { 
@@ -213,7 +213,7 @@ function findCoord(){
     $tableCoord = array();
     for($i=0; $i<count($result); $i++) {
         $coordinates = array(str_replace(',','.',$result[$i][7][0]),str_replace(',','.',$result[$i][8][0]));
-        print_r($result[$i][7][0]);
+        //print_r($result[$i][7][0]);
         array_push($tableCoord, $coordinates);
     }
     foreach ($tableCoord as $coords) {
