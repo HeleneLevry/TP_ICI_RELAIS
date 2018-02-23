@@ -9,7 +9,6 @@
 </head>
 <body>
     <?php $result = createTable();
-    echo $result[1][8][0];
     //print_r($result);?>
     <div class="row">
         <div class="colonne">
@@ -100,7 +99,7 @@
         position : markerPosition,
         map: map
     });
-    // Marker des stores
+    /*// Marker des stores
     <?php $_SESSION['inc']=0;?>;
     <?php $j=0;?>;
     for(var i=0; i<(<?php echo count($result)?>); i++){
@@ -114,7 +113,7 @@
             position : markerPosition,
             map: map
         });; 
-    }
+    }*/
 }
 
 </script>
@@ -180,6 +179,29 @@ function createTable(){
         }
     }
     return $result;
+}
+// findCoord
+function findCoord(){
+    global $result;
+    $tableCoord = array();
+    for($i=0; $i<count($result); $i++) {
+        $coordinates = array(str_replace(',','.',$result[$i][7][0]),str_replace(',','.',$result[$i][8][0]));
+        print_r($result[$i][7][0]);
+        array_push($tableCoord, $coordinates);
+    }
+    foreach ($tableCoord as $coords) {
+        ?>
+        <script>
+            var lat = <?php echo $tableCoord[0]; ?>;
+            var long = <?php echo $tableCoord[1]; ?>;
+            var markerPosition = {lat: lat, lng: lng};
+            var marker = new google.maps.Marker({
+                position : markerPosition,
+                map: map
+            });
+        </script>
+    <?php
+    }
 }
 
 // --------------------  --------------------
