@@ -34,6 +34,7 @@
 </html>
 
 <!-- ____________________ FUNCTIONS ____________________ -->
+<!-- printError -->
 <?php
     function printError(){
         switch($_GET['error']) {
