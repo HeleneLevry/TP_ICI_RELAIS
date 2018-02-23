@@ -11,13 +11,21 @@ include "session.php";
 $redirect = false;
 // parameterControl
 if (parameterControl()){
-	// Enregistrer le fichier
-	$xml = recordInFile();
-	// Recuperer les coordoonees pour centrer la carte
-	$coord = getCoord(); 
-	echo("coord: " . $coord[0] . " ". $coord[1]);
-	// Rediriger
-	$redirect = true;
+	// recordInFile
+	if (recordInFile()){
+		// Enregistrer le fichier
+		$xml = recordInFile();
+		// Recuperer les coordoonees pour centrer la carte
+		// getCoord
+		if (getCoord()){
+			$coord = getCoord(); 
+			echo("coord: " . $coord[0] . " ". $coord[1]);
+			// Rediriger
+			$redirect = true;
+		// getCoord
+		}
+	// recordInFile
+	}
 // parameterControl
 }
 
@@ -47,7 +55,7 @@ function parameterControl(){
 		return true;
 	}
 	else {
-		global $Error, $Redirect;
+		global $Error, $redirect;
 		$Redirect = false;
 		$Error = 'missingArg';
 		return false;
@@ -71,12 +79,28 @@ function recordInFile(){
 	curl_setopt($connexionFile, CURLOPT_URL, $URL);
 	// Exec
 	curl_exec($connexionFile);
+	// If curl error
+	if (curl_errno($connexionFile) != 0){
+		global $Error, $redirect;
+		$redirect = false;
+		$Error = 'errRecordInFile1';
+		return false;
+	}
 	// Close
 	curl_close($connexionFile);
-	// To string
-	$xml = simplexml_load_file($outputFile);
-	// return
-	return $xml;
+	if (simplexml_load_file($outputFile)){
+		// To string
+		$xml = simplexml_load_file($outputFile);
+		// return
+		return $xml;
+	}
+	// if issue with simplexml_load_string
+	else{
+		global $Error, $redirect;
+		$redirect = false;
+		$Error = 'errRecordInFile2';
+		return false;
+	}
 }
 // getCoord();
 function getCoord(){
@@ -95,17 +119,34 @@ function getCoord(){
 	curl_setopt($connexion, CURLOPT_SSL_VERIFYPEER, false);
 	// Execute curl 
 	$data = curl_exec($connexion);
+	// If curl error
+	if (curl_errno($connexion) != 0){
+		global $Error, $redirect;
+		//echo $e->getMessage();
+		$redirect = false;
+		$Error = 'errGetCoord1';
+		return false;
+	}
 	// Close curl connexion
 	curl_close($connexion);
 	// To string
-	$xml = simplexml_load_string($data);
-	// latitude
-	$lat = $xml->result->geometry->location->lat;
-	// longitude
-	$lng = $xml->result->geometry->location->lng;
-	// table to return
-	$coord = array($lat, $lng);
-	return $coord;
+	if (simplexml_load_string($data)){
+		$xml = simplexml_load_string($data);
+		// latitude
+		$lat = $xml->result->geometry->location->lat;
+		// longitude
+		$lng = $xml->result->geometry->location->lng;
+		// table to return
+		$coord = array($lat, $lng);
+		return $coord;
+	}
+	// if issue with simplexml_load_string
+	else{
+		global $Error, $redirect;
+		$redirect = false;
+		$Error = 'errGetCoord2';
+		return false;
+	}
 }
 
 // ----- Redirection -----
@@ -116,6 +157,26 @@ function redirectError(){
     	// parameterControl
 		case 'missingArg':
 		header("Location: commande.php?error=missingArg");
+		exit();
+		break;
+		// getCoord
+		case 'errGetCoord1':
+		header("Location: commande.php?error=errGetCoord1");
+		exit();
+		break;
+		// getCoord
+		case 'errGetCoord2':
+		header("Location: commande.php?error=errGetCoord2");
+		exit();
+		break;
+		// recordInFile
+		case 'errRecordInFile1':
+		header("Location: commande.php?error=errRecordInFile1");
+		exit();
+		break;
+		// recordInFile
+		case 'errRecordInFile2':
+		header("Location: commande.php?error=errRecordInFile2");
 		exit();
 		break;
 		// default

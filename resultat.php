@@ -13,8 +13,8 @@
     <div class="row">
         <div class="colonne">
             <form>
-                <p>Veuillez choisir votre point relais :</p>
                 <div class="colonne">
+                    <p>Veuillez choisir votre point relais :</p>
                     <?php
                     // On crée le formulaire avec les ratios
                     foreach ($result as $key => $value) { 
