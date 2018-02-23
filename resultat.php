@@ -186,7 +186,7 @@ function findCoord(){
     $tableCoord = array();
     for($i=0; $i<count($result); $i++) {
         $coordinates = array(str_replace(',','.',$result[$i][7][0]),str_replace(',','.',$result[$i][8][0]));
-        print_r($result[$i][7][0]);
+        //print_r($result[$i][7][0]);
         array_push($tableCoord, $coordinates);
     }
     foreach ($tableCoord as $coords) {
