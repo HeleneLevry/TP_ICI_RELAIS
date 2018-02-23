@@ -112,7 +112,6 @@
         var lat= element[8][0].replace(',','.');
         var lng= element[7][0].replace(',','.');
         var markerPosition = {lat: parseFloat(lat), lng: parseFloat(lng)};
-        console.log(markerPosition);
 
         var infowindow = new google.maps.InfoWindow({
             content: '<div id="content">'+
