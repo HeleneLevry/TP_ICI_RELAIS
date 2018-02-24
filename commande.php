@@ -8,25 +8,25 @@
 </head>
 
 <body>
-    <!-- Error messages -->
+    <header><div class="colonneBody"><h1>Point Relais</h1></div></header>
+     <!-- Error messages -->
     <?php
     if (isset($_GET['error'])) {
         printError();
     }
     ?>
-    <header><div class="center"><h1>Point Relais</h1></div></header>
     <form method="POST" enctype="multipart/form-data" action="do.commande.php">
         <div class="colonne75">
             <label for="address"> Adresse : </label>
-            <input id="address" type="text" name="address" maxlength="200" required>
+            <input type="text" id="address" class="inputText" name="address" maxlength="200" required>
             <label for="ZIPCODE"> Code Postal : </label>
-            <input id="ZIPCODE" type="text" name="ZIPCode" required maxlength="5" />
+            <input type="text" id="ZIPCODE" class="inputText" name="ZIPCode" required maxlength="5" />
             <label for="city"> Ville : </label>
-            <input id="city" type="text" name="city" required maxlength="20" />
+            <input type="text" id="city" class="inputText" name="city" required maxlength="20" />
             <label for="date_from">Date de livraison :</label>
-            <input type="date" id="date_from" name="date_from" value=<?php echo(date("Y-m-d")); ?> min=<?php echo(date("Y-m-d")); ?> max=<?php  $datemax  = mktime(0, 0, 0, date("m")  , date("d")+9, date("Y")); echo date('Y-m-d', $datemax); ?> >
-            <div class="sub">
-                <input type="submit" value="Valider">
+            <input type="date" id="date_from" class="inputText" name="date_from" value=<?php echo(date("Y-m-d")); ?> min=<?php echo(date("Y-m-d")); ?> max=<?php  $datemax  = mktime(0, 0, 0, date("m")  , date("d")+9, date("Y")); echo date('Y-m-d', $datemax); ?> >
+            <div class="rightAlign">
+                <input type="submit" class="button" value="Valider">
             </div>
         </div>
     </form>

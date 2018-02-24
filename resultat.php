@@ -36,6 +36,9 @@
                     </div>
                 </fieldset>
             </form>
+            <div class="row">
+                <input class="button" type="button" value="Nouvelle recherche" onclick="window.location.href='commande.php'">
+            </div>
 
         </div>
 
@@ -49,7 +52,7 @@
                     // on crée l'encart informations de chaque relais
                     foreach ($result as $key => $value) {
                         echo('
-                            <div id="adresse'.$key.'" class="colonne divAdresse" style="display:none;">
+                            <div id="adresse'.$key.'" class="divAdresse" style="display:none;">
                                 <hr>
                                 <div>
                                     <h3 id="nom'.$key.'">'.ucwords(strtolower($value[1])).'</h3>
